@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shooting Game</title>
+    <style>
+      canvas {
+        background: #8400ff;
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gameCanvas" width="1440" height="720"></canvas>
+    <script>
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+
+      let player = {
+        x: 1340,
+        y: 360,
+        width: 50,
+        height: 50,
+        speed: 5,
+        image: new Image(),
+      };
+
+      let player2 = {
+        x: 100,
+        y: 360,
+        width: 50,
+        height: 50,
+        speed: 5,
+        image: new Image(),
+      };
+
+      let keys = [];
+
+      player2.image.src = "Duckright-removebg-preview.png";
+      player.image.src = "Bad-removebg-preview.png";
+
+      function checkBoundary() {
+        if (player.x < 0) player.x = 0;
+        if (player.x + player.width > canvas.width)
+          player.x = canvas.width - player.width;
+        if (player.y < 0) player.y = 0;
+        if (player.y + player.height > canvas.height)
+          player.y = canvas.height - player.height;
+        if (player2.x < 0) player2.x = 0;
+        if (player2.x + player2.width > canvas.width)
+          player2.x = canvas.width - player2.width;
+        if (player2.y < 0) player2.y = 0;
+        if (player2.y + player2.height > canvas.height)
+          player2.y = canvas.height - player2.height;
+      }
+
+      function drawPlayer() {
+        ctx.drawImage(
+          player.image,
+          player.x,
+          player.y,
+          player.width,
+          player.height
+        );
+      }
+
+      function drawPlayer2() {
+        ctx.drawImage(
+          player2.image,
+          player2.x,
+          player2.y,
+          player2.width,
+          player2.height
+        );
+      }
+
+      function moveLeft() {
+        checkBoundary();
+        player.x -= player.speed;
+        checkBoundary();
+      }
+      function moveRight() {
+        checkBoundary();
+        player.x += player.speed;
+        checkBoundary();
+      }
+      function moveDown() {
+        checkBoundary();
+        player.y += player.speed;
+        checkBoundary();
+      }
+      function moveUp() {
+        checkBoundary();
+        player.y -= player.speed;
+        checkBoundary();
+      }
+
+      function moveLeft2() {
+        checkBoundary();
+        player2.x -= player2.speed;
+        checkBoundary();
+      }
+      function moveRight2() {
+        checkBoundary();
+        player2.x += player2.speed;
+        checkBoundary();
+      }
+      function moveDown2() {
+        checkBoundary();
+        player2.y += player2.speed;
+        checkBoundary();
+      }
+      function moveUp2() {
+        checkBoundary();
+        player2.y -= player2.speed;
+        checkBoundary();
+      }
+
+      function updateGame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawPlayer();
+        drawPlayer2();
+      }
+
+      function gameLoop() {
+        handleKeyInput();
+        updateGame();
+        requestAnimationFrame(gameLoop);
+      }
+      document.addEventListener("keydown", (event) => {
+        keys[event.key] = true;
+      });
+
+      document.addEventListener("keyup", (event) => {
+        keys[event.key] = false;
+      });
+
+      function handleKeyInput() {
+        if (keys["a"]) moveLeft();
+        if (keys["d"]) moveRight();
+        if (keys["s"]) moveDown();
+        if (keys["w"]) moveUp();
+        if (keys["ArrowLeft"]) moveLeft2();
+        if (keys["ArrowRight"]) moveRight2();
+        if (keys["ArrowDown"]) moveDown2();
+        if (keys["ArrowUp"]) moveUp2();
+      }
+
+      gameLoop();
+    </script>
+  </body>
+</html>
